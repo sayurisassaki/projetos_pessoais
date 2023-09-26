@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="Pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Número da Sorte</title>
+</head>
+<body>
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+        var tela = document.querySelector("canvas");
+        var pincel = tela.getContext("2d");
+
+        function fundo(){
+            //Fundo
+            pincel.fillStyle = "lightgray";
+            pincel.fillRect(0, 0, 600, 400);
+        }
+
+        function caixa(){
+            //Caixa
+            pincel.fillStyle = "pink";
+            pincel.fillRect(225, 270, 150, 250);
+            pincel.fillStroke = "black";
+            pincel.strokeRect(225, 270, 150, 250);
+            //Fita Caixa
+            pincel.fillStyle = "black";
+            pincel.fillRect(285, 270, 30, 250);
+        }
+
+        function tampa(altura = 0){
+            //Laço esquerdo
+            pincel.fillStyle = "black";
+            pincel.beginPath();
+            pincel.moveTo(230, 200 - altura);
+            pincel.lineTo(230, 245 - altura);
+            pincel.lineTo(320, 240 - altura);
+            pincel.fill();
+            //Linha direita        
+            pincel.fillStyle = "black";
+            pincel.beginPath();
+            pincel.moveTo(370, 200 - altura);
+            pincel.lineTo(370, 245 - altura);
+            pincel.lineTo(280, 240 - altura);
+            pincel.fill();
+            //Nó
+            pincel.fillStyle = "black";
+            pincel.beginPath();
+            pincel.arc(299, 240 - altura, 16, 0, 2 *3.14);
+            pincel.fill();
+            //Tampa 
+            pincel.fillStyle = "pink";
+            pincel.fillRect(210, 240 - altura, 180, 40);
+            pincel.fillStroke = "black";
+            pincel.strokeRect(210, 240 - altura, 180, 40);
+            //Fita Tampa
+            pincel.fillStyle = "black";
+            pincel.fillRect(282, 240 - altura, 36, 40);
+            //Linha fita
+            pincel.fillStyle = "gray";
+            pincel.fillRect(282, 279 - altura, 36, 1);        
+            //Linha fita
+            pincel.fillStyle = "gray";
+            pincel.fillRect(282, 240 - altura, 36, 1);
+        }
+
+        function desenhaTexto(x, y, texto, fonte) {
+            var tela = document.querySelector("canvas");
+            var pincel = tela.getContext("2d");
+
+            pincel.font= fonte;
+            pincel.fillStyle= "black";
+            pincel.fillText(texto, x, y);
+        }  
+
+        fundo()
+        caixa()
+        tampa()
+
+        desenhaTexto(210, 100, "CLIQUE NA CAIXA!", "20px Georgia");
+        desenhaTexto(170, 130, "Descubra seu número da sorte.", "20px Georgia");
+
+        function sorteia(){
+            return Math.round(Math.random() * 100);
+        }
+
+        function limpaTela(){
+            pincel.clearRect(0, 0, 600, 400);
+        }
+
+        function dispara(evento){
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+
+            if ((x > 225 ) && (x < 375 ) && (y > 270) && (y < 400)){
+                limpaTela();
+                fundo()
+                caixa()
+                tampa(140)
+                var sorte = sorteia()
+                desenhaTexto(200, 185, "Seu Número da Sorte é", "20px Georgia");
+                desenhaTexto(275, 235, sorte, "50px Georgia");
+                desenhaTexto(400, 360, "CLOUD GIRLS - TURMA 10","15px Georgia");
+                desenhaTexto(440, 385, "Lucilha Sayuri Sassaki", "15px Georgia");
+            }
+        }
+        
+        tela.onclick = dispara;  
+
+    </script>
+</body>
+</html>
